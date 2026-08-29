@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 import heroYard from "@/assets/hero-yard.jpg";
 import { Nav } from "@/components/site/Nav";
-import { categories, listings } from "@/components/site/inventory-data";
+import { PayPalCheckout } from "@/components/site/PayPalCheckout";
+import { categories, listings, type Listing } from "@/components/site/inventory-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,6 +30,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [checkoutUnit, setCheckoutUnit] = useState<Listing | null>(null);
+
   return (
     <div className="min-h-screen bg-surface text-foreground">
       <Nav />
