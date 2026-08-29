@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 import heroYard from "@/assets/hero-yard.jpg";
 import { Nav } from "@/components/site/Nav";
-import { categories, listings } from "@/components/site/inventory-data";
+import { PayPalCheckout } from "@/components/site/PayPalCheckout";
+import { categories, listings, type Listing } from "@/components/site/inventory-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,6 +30,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [checkoutUnit, setCheckoutUnit] = useState<Listing | null>(null);
+
   return (
     <div className="min-h-screen bg-surface text-foreground">
       <Nav />
@@ -206,12 +210,21 @@ function Index() {
                         </div>
                       ))}
                     </div>
-                    <a
-                      href="#quote"
-                      className="block w-full rounded-sm border border-hairline bg-secondary py-3 text-center text-xs font-semibold uppercase tracking-widest text-foreground transition-colors hover:bg-hairline"
-                    >
-                      {unit.cta}
-                    </a>
+                    <div className="space-y-2">
+                      <button
+                        type="button"
+                        onClick={() => setCheckoutUnit(unit)}
+                        className="block w-full rounded-sm bg-brand py-3 text-center text-xs font-semibold uppercase tracking-widest text-brand-foreground transition-colors hover:bg-steel hover:text-steel-foreground"
+                      >
+                        Buy with PayPal
+                      </button>
+                      <a
+                        href="#quote"
+                        className="block w-full rounded-sm border border-hairline bg-secondary py-3 text-center text-xs font-semibold uppercase tracking-widest text-foreground transition-colors hover:bg-hairline"
+                      >
+                        {unit.cta}
+                      </a>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -397,6 +410,14 @@ function Index() {
           </p>
         </div>
       </footer>
+
+      <PayPalCheckout
+        open={checkoutUnit !== null}
+        onClose={() => setCheckoutUnit(null)}
+        title={checkoutUnit?.title ?? ""}
+        subtitle={checkoutUnit?.subtitle ?? ""}
+        price={checkoutUnit?.price ?? "$0"}
+      />
     </div>
   );
 }
