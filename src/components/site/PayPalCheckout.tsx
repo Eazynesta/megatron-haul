@@ -29,7 +29,7 @@ declare global {
   }
 }
 
-const CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb";
+const CLIENT_ID = import.meta.env["VITE_PAYPAL_CLIENT_ID"] || "sb";
 
 let sdkPromise: Promise<void> | null = null;
 
